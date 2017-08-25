@@ -38,15 +38,17 @@ public class TestController {
 
     @GetMapping("/schedule")
     public String schedule(@RequestParam(value = "jobName") String jobName,
-                           @RequestParam(value = "triggerName") String triggerName) {
+                           @RequestParam(value = "triggerName") String triggerName,
+                           @RequestParam(value = "url") String url) {
         String scheduled = "Job is Scheduled!!";
         try {
             JobDetailFactoryBean jdfb = ConfigureQuartz.createJobDetail(DynamicJob.class);
-            jdfb.setBeanName("dynamicJobBean");
+            jdfb.setBeanName(jobName);
             jdfb.afterPropertiesSet();
+            jdfb.getJobDataMap().put("url", url);
 
             SimpleTriggerFactoryBean stfb = ConfigureQuartz.createTrigger(jdfb.getObject(), 5000L);
-            stfb.setBeanName("dynamicJobBeanTrigger");
+            stfb.setBeanName(triggerName);
             stfb.afterPropertiesSet();
 
             schedFactory.getScheduler().scheduleJob(jdfb.getObject(), stfb.getObject());
@@ -58,10 +60,11 @@ public class TestController {
     }
 
     @GetMapping("/unschedule")
-    public String unschedule() {
+    public String unschedule(@RequestParam(value = "jobName") String jobName,
+                             @RequestParam(value = "triggerName") String triggerName) {
         String scheduled = "Job is Unscheduled!!";
-        TriggerKey tkey = new TriggerKey("dynamicJobBeanTrigger");
-        JobKey jkey = new JobKey("dynamicJobBean");
+        TriggerKey tkey = new TriggerKey(triggerName);
+        JobKey jkey = new JobKey(jobName);
         try {
             schedFactory.getScheduler().unscheduleJob(tkey);
             schedFactory.getScheduler().deleteJob(jkey);
