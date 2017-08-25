@@ -3,7 +3,6 @@ package com.opencodez.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.swagger.annotations.Api;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerKey;
@@ -22,7 +21,6 @@ import com.opencodez.quartz.jobs.DynamicJob;
 import com.opencodez.util.AppUtil;
 import com.opencodez.util.PropertiesUtils;
 
-@Api(tags = "Quartz")
 @RestController
 public class TestController {
 	
@@ -47,28 +45,12 @@ public class TestController {
 			JobDetailFactoryBean jdfb = ConfigureQuartz.createJobDetail(DynamicJob.class);
 			jdfb.setBeanName("dynamicJobBean");
 			jdfb.afterPropertiesSet();
-
-			jdfb.getJobDataMap().put("url", "http://baidu.com");
 			
 			SimpleTriggerFactoryBean stfb = ConfigureQuartz.createTrigger(jdfb.getObject(),5000L);
 			stfb.setBeanName("dynamicJobBeanTrigger");
 			stfb.afterPropertiesSet();
 			
 			schedFactory.getScheduler().scheduleJob(jdfb.getObject(), stfb.getObject());
-
-			//////////////////////////////////////////////////////////////////////////////////////////////////
-
-			JobDetailFactoryBean jdfb2 = ConfigureQuartz.createJobDetail(DynamicJob.class);
-			jdfb2.setBeanName("dynamicJobBean2");
-			jdfb2.afterPropertiesSet();
-
-			jdfb2.getJobDataMap().put("url", "http://sina.com");
-
-			SimpleTriggerFactoryBean stfb2 = ConfigureQuartz.createTrigger(jdfb2.getObject(),5000L);
-			stfb2.setBeanName("dynamicJobBeanTrigger2");
-			stfb2.afterPropertiesSet();
-
-			schedFactory.getScheduler().scheduleJob(jdfb2.getObject(), stfb2.getObject());
 			
 		} catch (Exception e) {
 			scheduled = "Could not schedule a job. " + e.getMessage();

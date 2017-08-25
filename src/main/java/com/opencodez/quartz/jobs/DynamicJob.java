@@ -21,9 +21,7 @@ public class DynamicJob  implements Job {
 	
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		String url = arg0.getJobDetail().getJobDataMap().get("url").toString();
 		logger.info("----- Running Dynamic Job With Simple Trigger ------");
-		logger.info("----- " + url +"-------");
 	}
 
 }
