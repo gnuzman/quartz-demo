@@ -9,17 +9,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<!-- MYSQL LOCAL -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/localdb" />
+		<property name="jdbcUrl" value="jdbc:mysql://192.168.42.9:3306/quartzdb?useSSL=false" />
 		<property name="properties">
 			<props>
 				<prop key="c3p0.acquire_increment">5</prop>
 				<prop key="c3p0.maxStatementsPerConnection">20</prop>
-				<prop key="c3p0.maxStatements ">100</prop>
-				<prop key="c3p0.maxPoolSize">500</prop>
+				<prop key="c3p0.maxStatements ">10</prop>
+				<prop key="c3p0.maxPoolSize">50</prop>
 				<prop key="c3p0.max_statements">0</prop>
 				<prop key="c3p0.minPoolSize">5</prop>
-				<prop key="user">lessroot</prop>
-				<prop key="password">lessroot</prop>
+				<prop key="user">root</prop>
+				<prop key="password">root</prop>
 			</props>
 		</property>
 	</bean>
